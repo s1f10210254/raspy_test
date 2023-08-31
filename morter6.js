@@ -12,16 +12,20 @@ board.on('ready', () => {
       dir: 'P1-11'
     }
   });
-  console.log("speed")
+  board.repl.inject({
+    motor
+  });
 
-  // モーターを正回転
-  motor.forward(100);
-  console.log("mootor_forward")
+  motor.on("start", ()=>{
+    console.log(`start: ${Date.now()}`);
 
-  // 5秒後にモーター停止
-  setTimeout(() => {
-    motor.stop();
-    console.log("moter_stop")
-    process.exit();
-  }, 5000);
+    board.wait(2000, motor.stop);
+  })
+
+  motor.on("stop",()=>{
+    console.log(`stop: ${Date.now()}`);
+  })
+
+
+  motor.start();
 });

@@ -14,7 +14,13 @@ board.on('ready', () => {
     },
     invertPWM: true  // PWMを反転（必要に応じて）
   });
+  motor.speed();
 
   // Forward with a fixed speed
-  motor.forward(255);  // 255は速度の範囲（0から255）
+  motor.fwd(255);  // 255は速度の範囲（0から255）
+
+  process.on('SIGINT', () => {
+    motor.stop();
+    process.exit();
+  });
 });
